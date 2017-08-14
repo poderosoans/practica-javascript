@@ -26,12 +26,17 @@
 		saludar(){
 			return `Hola soy, ${this.nombreCompleto} y vivo en ${this.pais}`;
 		}
+
+		static describirPersona(persona){
+			return `Esta persona se llama ${persona.nombreCompleto} y es de ${persona.pais}`;
+		}
 	}
 
 	const persona1 = new Persona('Roger', 'Pomacarhua', 'Perú');
 	const persona2 = new Persona('Pedro', 'Lopez', 'España');
-	console.log(persona1);
-	console.log(persona2);
+	//console.log(persona1);
+	//console.log(persona2);
+	console.log(Persona.describirPersona(persona1));
 
 // Herencia
 	class Profesor extends Persona{
@@ -59,7 +64,7 @@
 
 
 	const profesor1 = new Profesor('Daniel', 'Romero', 'Colombia', 'PHP desde cero');
-	console.log(profesor1.invitaAlCurso());
+	//console.log(profesor1.invitaAlCurso());
 
 	const alumno1 = new Estudiante('Clara', 'Diaz', 'Perú', '101-A', '2150');
-	console.log(alumno1.getNombre());
+	//console.log(alumno1.getNombre());
