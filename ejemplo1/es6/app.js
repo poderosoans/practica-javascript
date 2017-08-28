@@ -29,12 +29,14 @@ class TaskList {
 
 	renderTasks(element) {
 		let tasks = this.tasks.map( task => `
-			<li class="task">
-				<input type="checkbox" class="task__complete-button">
+			<li class="task ${task.isComplete ? 'complete' : ''}">
+				<input type="checkbox" 
+				        class="task__complete-button"
+				        ${task.isComplete ? 'checked' : ''}>
 				<span class="task__name">${task.name}</span>
 				<a href="#" class="task__remove-button">X</a>
 			</li>`);
-		element.innerHTML = tasks.reduce((a,b) => a + b, '');
+		element.innerHTML = tasks.reduce((a,b) => a + b, ''); // Valor inicial se está pasando un String vacío
 	}
 }
 
@@ -63,8 +65,8 @@ addTaskElement.addEventListener('keyup', addDOMTask);
 
 // Obtener indice de la tarea actual
 function getTaskIndex(e) {
-	let taskItem = e.target.parentElement,
-		    tasksItems = [...tasksContainerElement.querySelectorAll('li')];
+	let taskItem = e.target.parentElement, // Se selecciona al padre
+		    tasksItems = [...tasksContainerElement.querySelectorAll('li')]; // Busca con un selector de CSS los LI
 		    return tasksItems.indexOf(taskItem);
 }
 
@@ -89,6 +91,8 @@ function completeDOMtask(e, list = inbox) {
 	if(e.target.tagName == 'INPUT'){ // Etiqueta (todos los elementos HTML son objetos)
 		// Completar la tarea de la lista (se necesita el indice)
 		list.tasks[getTaskIndex(e)].complete();
+		// classList = Lista que contiene a todas las clases del elemento, toggle cambia, añade o quita una clase
+		e.target.parentElement.classList.toggle('complete');
 		console.table(list.tasks);
     }
 }

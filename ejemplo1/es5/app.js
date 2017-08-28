@@ -48,11 +48,11 @@ var TaskList = function () {
 		key: 'renderTasks',
 		value: function renderTasks(element) {
 			var tasks = this.tasks.map(function (task) {
-				return '\n\t\t\t<li class="task">\n\t\t\t\t<input type="checkbox" class="task__complete-button">\n\t\t\t\t<span class="task__name">' + task.name + '</span>\n\t\t\t\t<a href="#" class="task__remove-button">X</a>\n\t\t\t</li>';
+				return '\n\t\t\t<li class="task ' + (task.isComplete ? 'complete' : '') + '">\n\t\t\t\t<input type="checkbox" \n\t\t\t\t        class="task__complete-button"\n\t\t\t\t        ' + (task.isComplete ? 'checked' : '') + '>\n\t\t\t\t<span class="task__name">' + task.name + '</span>\n\t\t\t\t<a href="#" class="task__remove-button">X</a>\n\t\t\t</li>';
 			});
 			element.innerHTML = tasks.reduce(function (a, b) {
 				return a + b;
-			}, '');
+			}, ''); // Valor inicial se está pasando un String vacío
 		}
 	}]);
 
@@ -86,7 +86,8 @@ addTaskElement.addEventListener('keyup', addDOMTask);
 // Obtener indice de la tarea actual
 function getTaskIndex(e) {
 	var taskItem = e.target.parentElement,
-	    tasksItems = [].concat(_toConsumableArray(tasksContainerElement.querySelectorAll('li')));
+	    // Se selecciona al padre
+	tasksItems = [].concat(_toConsumableArray(tasksContainerElement.querySelectorAll('li'))); // Busca con un selector de CSS los LI
 	return tasksItems.indexOf(taskItem);
 }
 
@@ -117,6 +118,8 @@ function completeDOMtask(e) {
 		// Etiqueta (todos los elementos HTML son objetos)
 		// Completar la tarea de la lista (se necesita el indice)
 		list.tasks[getTaskIndex(e)].complete();
+		// classList = Lista que contiene a todas las clases del elemento, toggle cambia, añade o quita una clase
+		e.target.parentElement.classList.toggle('complete');
 		console.table(list.tasks);
 	}
 }
