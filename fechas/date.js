@@ -94,11 +94,25 @@
 		return {years,days,hours,minutes,seconds};
 	}
 
-	let date = new Date(),
-		date2 = new Date('Sep 24 1994 05:30:32 GMT-0500');
+	//let date = new Date(),
+	//	date2 = new Date('Sep 24 1994 05:30:32 GMT-0500');
 	//console.log(msToExpandDateObj(date - date2));
 
 /*	
 * Horarios y fechas internacionales
 * .getUTC... (fullYear, Hours, etc...)
+* .getTimeZoneOffset() => Devuelve la diferencia en minutos de la hora 0 a nuestra zona horaria
 **/
+
+	let date = new Date();
+	console.log(date.getHours()); // Hora local
+	console.log(date.getUTCHours());  // Hora internacional
+	console.log(date.getTimezoneOffset());  // Diferencia entre hora internacional y local en minutos
+	
+// Ejemplo Practico
+	let date3 = new Date('Mar 29 2017 17:00:00 GMT-0500');
+	let horus = date3.getHours(),
+		utcHours = date3.getUTCHours(),
+		diffHours = new Date().getTimezoneOffset() / 60;
+
+	console.log(utcHours - diffHours);
