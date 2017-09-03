@@ -111,8 +111,8 @@
 	
 // Ejemplo Practico
 	let date3 = new Date('Mar 29 2017 17:00:00 GMT-0500');
-	let horus = date3.getHours(),
+	let hours = date3.getHours(),
 		utcHours = date3.getUTCHours(),
-		diffHours = new Date().getTimezoneOffset() / 60;
+		diffHours = new Date().getTimezoneOffset() / 60; // Hora del cliente
 
 	console.log(utcHours - diffHours);
