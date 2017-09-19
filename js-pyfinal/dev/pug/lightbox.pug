@@ -2,9 +2,9 @@ extends templates/template
 block main
 	h1 Lightbox gallerys
 	- var n = 1
-	while n <= 12
-		.gallery-container
+	.gallery-container#gallery-container
+		while n <= 12
 			.gallery-item
-				img(src="img/gallery-"+ n + "-thumb.jpg" alt="Descripcion de la imagen" + n)
-		-n++
+				img(src="img/gallery-"+ n + "-thumb.jpg" alt="Descripcion de la imagen " + n)
+			-n++
 	script(src='js/lightbox.js')
