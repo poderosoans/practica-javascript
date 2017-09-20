@@ -5,6 +5,6 @@ block main
 	.gallery-container#gallery-container
 		while n <= 12
 			.gallery-item
-				img(src="img/gallery-"+ n + "-thumb.jpg" alt="Descripcion de la imagen " + n)
+				img(src="img/gallery-"+ n + "-thumb.jpg" alt="Descripcion de la imagen " + n).gallery-img
 			-n++
 	script(src='js/lightbox.js')

@@ -39,9 +39,60 @@ var openLightboxEvent = function openLightboxEvent(container, gallery, larges, d
 // Imprimir everlay del lightbox en el body
 var openLightbox = function openLightbox(gallery, i, larges, descriptions) {
 	var lightboxElement = document.createElement('div');
-	lightboxElement.innerHTML = '\n\t\t<div class="lightbox-overlay">\n\t\t\t<figure class="lightbox-container">\n\t\t\t\t<img src="' + larges[i] + '" class="lightbox-image">\n\t\t\t\t<figcaption>\n\t\t\t\t<p class="lightbox-description">' + descriptions[i] + '</p>\n\t\t\t\t<nav class="lightbox-navigation">\n\t\t\t\t\t<a href="#" class="lightbox-navigation__button prev"></a>\n\t\t\t\t\t<span class="lightbox-navigation__counter">Imagen ' + (i + 1) + ' de ' + gallery.length + '</span>\n\t\t\t\t\t<a href="#" class="lightbox-navigation__button next"></a>\n\t\t\t\t</nav>\n\t\t\t\t</figcaption>\n\t\t\t</figure>\n\t\t</div>\n\t';
+	lightboxElement.innerHTML = '\n\t\t<div class="lightbox-overlay">\n\t\t\t<figure class="lightbox-container">\n\t\t\t\t<div class="close-modal">X</div>\n\t\t\t\t<img src="' + larges[i] + '" class="lightbox-image">\n\t\t\t\t<figcaption>\n\t\t\t\t<p class="lightbox-description">' + descriptions[i] + '</p>\n\t\t\t\t<nav class="lightbox-navigation">\n\t\t\t\t\t<a href="#" class="lightbox-navigation__button prev"><=</a>\n\t\t\t\t\t<span class="lightbox-navigation__counter">Imagen ' + (i + 1) + ' de ' + gallery.length + '</span>\n\t\t\t\t\t<a href="#" class="lightbox-navigation__button next">=></a>\n\t\t\t\t</nav>\n\t\t\t\t</figcaption>\n\t\t\t</figure>\n\t\t</div>\n\t';
 	lightboxElement.id = 'lightbox';
 	document.body.appendChild(lightboxElement);
+	closeModal(lightboxElement);
+	navigateLightbox(lightboxElement, i, larges, descriptions);
+};
+
+var closeModal = function closeModal(modalElement) {
+	var closeModal = modalElement.querySelector('.close-modal');
+	closeModal.addEventListener('click', function (e) {
+		e.preventDefault();
+		document.body.removeChild(modalElement);
+	});
+};
+
+var navigateLightbox = function navigateLightbox(lightboxElement, i, larges, descriptions) {
+	var prevButton = lightboxElement.querySelector('.prev'),
+	    nextButton = lightboxElement.querySelector('.next'),
+	    image = lightboxElement.querySelector('img'),
+	    description = lightboxElement.querySelector('p'),
+	    counter = lightboxElement.querySelector('span'),
+	    closeButton = lightboxElement.querySelector('.close-modal');
+
+	window.addEventListener('keyup', function (e) {
+		if (e.key == 'ArrowRight') nextButton.click();
+		if (e.key == 'ArrowLeft') prevButton.click();
+		if (e.key == 'Escape') closeButton.click();
+	});
+
+	lightboxElement.addEventListener('click', function (e) {
+		e.preventDefault();
+		var target = e.target;
+
+		if (target === prevButton) {
+			if (i > 0) {
+				image.src = larges[i - 1];
+				i--;
+			} else {
+				image.src = larges[larges.length - 1];
+				i = larges.length - 1;
+			}
+		} else if (target === nextButton) {
+			if (i < larges.length - 1) {
+				image.src = larges[i + 1];
+				i++;
+			} else {
+				image.src = larges[0];
+				i = 0;
+			}
+		}
+
+		description.textContent = descriptions[i];
+		counter.textContent = 'Imagen ' + (i + 1) + ' de ' + larges.length;
+	});
 };
 
 var lighbox = function lighbox(container) {
@@ -52,10 +103,3 @@ var lighbox = function lighbox(container) {
 };
 
 lighbox(document.getElementById('gallery-container'));
-
-// se abre en un overlay
-// Cerrar el overlay
-
-// Al abrirse la versión grande debe tener
-// Descripción de la imagen (que se tomará del atributo alt)
-// Navegación entre la imagen (siguiente y anterior)
